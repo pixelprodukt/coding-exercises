@@ -17,3 +17,21 @@ fun multiplyAfterRussianPeasantMethod(a: Int, b: Int): Int {
 
     return valuesToSum.sum()
 }
+
+// Optimized version from chatGpt
+fun multiplyAfterRussianPeasantMethodChatGpt(a: Int, b: Int): Int {
+    var valueA = a
+    var valueB = b
+    var result = 0
+
+    while (valueA > 0) {
+        if (valueA and 1 == 1) { // equivalent to valueA % 2 != 0
+            result += valueB
+        }
+
+        valueA = valueA shr 1  // equivalent to valueA / 2, shifts the bit pattern one to the right
+        valueB = valueB shl 1  // equivalent to valueB * 2, shifts the bit pattern one to the left
+    }
+
+    return result
+}
