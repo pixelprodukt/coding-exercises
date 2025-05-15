@@ -13,9 +13,9 @@ class CubeDataAnalyzer(
         val games = parseInputLines(inputLines)
         val possibleCubeColors = getPossibleCubeColors(rulesForPossibleGames)
         val possibleGames = games.filter { game -> isPossible(game, possibleCubeColors) }
-        val result = possibleGames.map { game -> game.id }.sum()
+        val result = possibleGames.sumOf { game -> game.id }
         //println("The result is: $result") // should return 2239
-        val resultTwo = games.map { game -> getFewestPossibleCubeSets(game, possibleCubeColors)}.sum()
+        val resultTwo = games.sumOf { game -> getFewestPossibleCubeSets(game, possibleCubeColors) }
         println(resultTwo) // should return 83435
     }
 
@@ -66,7 +66,7 @@ class CubeDataAnalyzer(
         //println(setsOfCubesOneColor)
 
         val sorted = setsOfCubesOneColor.map { setsOfCubes ->
-            setsOfCubes.sortedBy { set -> set.quantity }.last()
+            setsOfCubes.maxByOrNull { set -> set.quantity }!!
         }
         //println(sorted)
         val powerOfSets = sorted.map { it.quantity }.reduce(Int::times)
