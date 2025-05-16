@@ -3,7 +3,7 @@ package org.example.utils
 import java.nio.file.Paths
 
 fun getLinesFromTextfile(fileName: String): List<String> {
-    val filePath = Paths.get("src/main/resources/adventofcode/", fileName).toFile()
+    val filePath = Paths.get("src/main/resources/", fileName).toFile()
 
     return try {
         filePath.readLines()
