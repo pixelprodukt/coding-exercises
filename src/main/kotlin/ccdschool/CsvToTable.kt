@@ -3,10 +3,16 @@ package org.coding.ccdschool
 import org.example.utils.getLinesFromTextfile
 
 // https://ccd-school.de/coding-dojo/function-katas/csv-tabellieren/
-fun createTableFromCsv() {
-    val tableRows = getLinesFromTextfile("ccdschool/people.csv").map { it.split(";") }
+fun createTableFromCsv(fileReader: (String) -> List<String> = ::getLinesFromTextfile) {
+    val tableRows = fileReader("ccdschool/people.csv").map { it.split(";") }
+    val tableString = generateTableFromData(tableRows)
+    println(tableString)
+}
 
-    val headRow = tableRows.subList(0, 1).first()
+private fun generateTableFromData(tableRows: List<List<String>>): String {
+    if (tableRows.isEmpty()) return ""
+
+    val headRow = tableRows.first()
     val dataRows = tableRows.drop(1)
     val maxColumnWidths = getMaxColumnWidths(tableRows)
 
@@ -14,12 +20,11 @@ fun createTableFromCsv() {
     val separatorString = createSeparatorString(maxColumnWidths)
     val dataRowStrings = dataRows.map { row -> createRowString(row, maxColumnWidths) }
 
-    val tableStringBuilder = StringBuilder()
-        .append(headRowString)
-        .append(separatorString)
-        .append(dataRowStrings.joinToString(separator = ""))
-
-    println(tableStringBuilder.toString())
+    return buildString {
+        append(headRowString)
+        append(separatorString)
+        append(dataRowStrings.joinToString(separator = ""))
+    }
 }
 
 private fun getMaxColumnWidths(tableRows: List<List<String>>): List<Int> {
